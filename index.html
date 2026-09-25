@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Placement Command Center</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header id="topHeader">
+  <div class="header-inner">
+    <div class="header-block deadline-block">
+      <span class="header-eyebrow">Dec 31, 2026 deadline</span>
+      <div class="countdown-row">
+        <span id="countdownDays" class="countdown-number">—</span>
+        <span class="countdown-unit">days left</span>
+      </div>
+      <span id="countdownUrgency" class="urgency-pill">—</span>
+    </div>
+
+    <div class="header-block mode-block">
+      <span class="header-eyebrow">Today's mode — how much time do you have?</span>
+      <div class="mode-buttons">
+        <button class="mode-btn" data-mode="full">Full day</button>
+        <button class="mode-btn" data-mode="busy">Busy day</button>
+        <button class="mode-btn" data-mode="emergency">Emergency</button>
+        <button class="mode-btn" data-mode="minimum">Minimum</button>
+      </div>
+      <span id="modeHint" class="mode-hint">—</span>
+    </div>
+
+    <div class="header-block stats-block">
+      <div class="mini-stat"><span id="todayDateLabel">—</span><label>today</label></div>
+      <div class="mini-stat"><span id="headerCompletion">0%</span><label>today's completion</label></div>
+      <div class="mini-stat"><span id="headerStreak">0</span><label>streak (days)</label></div>
+      <div class="mini-stat"><span id="headerAppsWeek">0</span><label>applications this week</label></div>
+      <div class="mini-stat"><span id="headerProblemsWeek">0</span><label>problems this week</label></div>
+    </div>
+  </div>
+  <div class="header-quote"><span id="quoteOfDay"></span></div>
+</header>
+
+<nav id="mainNav">
+  <button class="nav-btn active" data-view="today">Today</button>
+  <button class="nav-btn" data-view="dashboard">Dashboard</button>
+  <button class="nav-btn" data-view="campus">Campus Placements</button>
+  <button class="nav-btn" data-view="offcampus">Off-Campus</button>
+  <button class="nav-btn" data-view="government">Government Exams</button>
+  <button class="nav-btn" data-view="settings">Profile &amp; Data</button>
+  <span id="saveIndicator" class="save-indicator">—</span>
+</nav>
+
+<main>
+
+  <!-- ================= TODAY ================= -->
+  <section id="view-today" class="view visible">
+    <div class="panel today-panel">
+      <div class="today-head">
+        <h2 id="todayTitle">TODAY</h2>
+        <span id="todayModeLabel" class="mode-badge">—</span>
+      </div>
+      <p class="today-sub">Week focus: <span id="weeklyFocusHint">—</span></p>
+
+      <div id="todayChecklist" class="today-checklist"></div>
+
+      <div class="today-footer">
+        <span id="todayCompletionText">0 / 0 complete</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Today's status</h3>
+      <div id="todayStatusSummary" class="status-summary"></div>
+    </div>
+
+    <div class="panel focus-panel">
+      <h3>What matters most tomorrow</h3>
+      <p id="tomorrowFocus" class="focus-text">—</p>
+    </div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section id="view-dashboard" class="view">
+    <div class="panel">
+      <h2>Placement readiness</h2>
+      <p class="note">Readiness is measured from tracked, independent, verified work — not a prediction and never a guarantee of placement.</p>
+      <div class="overall-readiness">
+        <span id="overallReadinessValue" class="overall-value">0%</span>
+        <div class="bar-track big"><div id="overallReadinessBar" class="bar-fill"></div></div>
+      </div>
+      <div id="readinessGrid" class="readiness-grid"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Top things to fix</h3>
+      <ul id="weakAreasList" class="weak-list"></ul>
+    </div>
+
+    <div class="panel">
+      <h3>This week — <span id="weekRangeLabel"></span></h3>
+      <div id="weeklyStatsGrid" class="stat-row"></div>
+      <div class="review-grid">
+        <label>Best improvement<textarea id="wr_bestImprovement" rows="2"></textarea></label>
+        <label>Biggest weakness<textarea id="wr_biggestWeakness" rows="2"></textarea></label>
+        <label>Most wasted time<textarea id="wr_mostWastedTime" rows="2"></textarea></label>
+        <label>Next week priority<textarea id="wr_nextWeekPriority" rows="2"></textarea></label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Monthly overview</h3>
+      <table class="data-table">
+        <thead><tr><th>Month</th><th>Applications</th><th>OAs</th><th>Mock interviews</th><th>DSA</th><th>Aptitude</th><th>CS</th></tr></thead>
+        <tbody id="monthlyTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-value" id="campusStatusCount">0</div><div class="stat-label">Campus companies tracked</div></div>
+      <div class="stat-card"><div class="stat-value" id="offcampusStatusCount">0</div><div class="stat-label">Off-campus applications tracked</div></div>
+      <div class="stat-card"><div class="stat-value" id="govStatusCount">0</div><div class="stat-label">Government exams tracked</div></div>
+    </div>
+  </section>
+
+  <!-- ================= CAMPUS ================= -->
+  <section id="view-campus" class="view">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-sub="overview">Overview</button>
+      <button class="subtab-btn" data-sub="companies">Company tracker</button>
+      <button class="subtab-btn" data-sub="dsa">DSA</button>
+      <button class="subtab-btn" data-sub="aptitude">Aptitude</button>
+      <button class="subtab-btn" data-sub="cs">CS Fundamentals</button>
+      <button class="subtab-btn" data-sub="java">Java / SQL</button>
+      <button class="subtab-btn" data-sub="resume">Resume</button>
+      <button class="subtab-btn" data-sub="project">Project interview</button>
+      <button class="subtab-btn" data-sub="technical">Technical interview</button>
+      <button class="subtab-btn" data-sub="hr">HR interview</button>
+      <button class="subtab-btn" data-sub="oa">OA / mock test</button>
+      <button class="subtab-btn" data-sub="mock">Mock interview</button>
+      <button class="subtab-btn" data-sub="communication">Communication</button>
+    </div>
+    <div id="campusContent"></div>
+  </section>
+
+  <!-- ================= OFF-CAMPUS ================= -->
+  <section id="view-offcampus" class="view">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-sub="overview">Overview</button>
+      <button class="subtab-btn" data-sub="applications">Applications</button>
+      <button class="subtab-btn" data-sub="sites">Job sites &amp; safety</button>
+      <button class="subtab-btn" data-sub="watchlist">Company watchlist</button>
+      <button class="subtab-btn" data-sub="referrals">Referrals</button>
+    </div>
+    <div id="offcampusContent"></div>
+  </section>
+
+  <!-- ================= GOVERNMENT ================= -->
+  <section id="view-government" class="view">
+    <div class="subtabs">
+      <button class="subtab-btn active" data-sub="overview">Overview</button>
+      <button class="subtab-btn" data-sub="tracker">Exam tracker</button>
+      <button class="subtab-btn" data-sub="links">Official links</button>
+    </div>
+    <div id="governmentContent"></div>
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+  <section id="view-settings" class="view">
+    <div class="panel">
+      <h2>Profile</h2>
+      <div class="profile-grid">
+        <label>Name<input id="profile_name" type="text" /></label>
+        <label>Degree<input id="profile_degree" type="text" /></label>
+        <label>Branch<input id="profile_branch" type="text" /></label>
+        <label>Graduation year<input id="profile_graduationYear" type="text" /></label>
+        <label>Current CGPA<input id="profile_cgpa" type="text" /></label>
+        <label>Target locations<input id="profile_targetLocations" type="text" /></label>
+        <label>Target package<input id="profile_targetPackage" type="text" /></label>
+        <label class="wide">Skills<textarea id="profile_skills" rows="2"></textarea></label>
+        <label class="wide">Target roles<textarea id="profile_targetRoles" rows="2"></textarea></label>
+      </div>
+    </div>
+
+    <div id="dailyLogHost"></div>
+
+    <div class="panel">
+      <h3>Search everything</h3>
+      <input id="globalSearchInput" type="text" class="search-input" placeholder="Search companies, applications, exams, DSA problems, questions, projects…" />
+      <div id="globalSearchResults" class="search-results"></div>
+    </div>
+
+    <div class="panel backup-panel">
+      <h3>Backup</h3>
+      <p class="note">Everything is stored only in this browser's local storage. Export a backup regularly — clearing browser data will erase everything not backed up.</p>
+      <div class="backup-actions">
+        <button id="exportBtn" class="btn primary">Export data (JSON)</button>
+        <label class="btn file-label">Import data
+          <input id="importFile" type="file" accept="application/json" hidden />
+        </label>
+        <button id="resetBtn" class="btn danger">Reset all data</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
